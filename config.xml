@@ -3,13 +3,13 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.codenames"
+        id        = "com.phonegap.colorsudoku"
         version   = "1.0.0">
 
-    <name>CodeNames Randomizer</name>
+    <name>Color Sudoku</name>
 
     <description>
-        Want more randomized patterns for CodeNames Boardgame? This is the solution!
+        A Sudoku for children
     </description>
 
     <author href="http://www.google.com/" email="darlanio@gmail.com">
