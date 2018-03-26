@@ -213,7 +213,7 @@ function resetSudoku()
 			rndtable[i]=rndtable[rnd];
 			rndtable[rnd]=c;
 		}
-		for(i=0;i<81 && (nowTime.getTime()-startTime.getTime()<3000);i++) {
+		for(i=0;i<81 && (nowTime.getTime()-startTime.getTime()<3000);i++) { // <<<<------ Denna loop kan ta mycket lång tid... behöver kanske ett avbrott till anyDuplicateSolutions() ?
 			clearSudoku(rndtable[i]);
 			if(anyDuplicateSolutions()) setSudoku(rndtable[i],sudokuSolution[rndtable[i]]-1);
 			nowTime = new Date();
@@ -235,6 +235,7 @@ function resetSudoku()
 		clearAllVariables();
 		for(i=0;i<81;i++) {		
 			sudoku[i]=sudokuLibrary[rndSudoku*2][i];
+			sudokuPuzzle[i]=sudokuLibrary[rndSudoku*2][i];
 			sudokuSolution[i]=sudokuLibrary[rndSudoku*2+1][i];
 		}
 	}
