@@ -227,6 +227,7 @@ function resetSudoku()
 			clearAllVariables();
 			for(i=0;i<81;i++) {		
 				sudoku[i]=sudokuLibrary[rndSudoku*2][i];
+				sudokuPuzzle[i]=sudokuLibrary[rndSudoku*2][i];
 				sudokuSolution[i]=sudokuLibrary[rndSudoku*2+1][i];
 			}
 		}
