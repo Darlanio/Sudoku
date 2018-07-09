@@ -76,6 +76,7 @@ function userClick(id)
 	    i=(i+1)%10;
         sudoku[idint]=i;
 	    updateUserInterface();
+            saveSudoku();
 	
     	for(i=0;i<81;i++) {
     	    if(sudoku[i]!=sudokuSolution[i]) isCorrectSolution=0;
@@ -84,7 +85,7 @@ function userClick(id)
 	        flashcounter=50;
             setTimeout('flashBackground()',50);
     	}
-	}
+    }
 }
 
 function setBlackBackground()
@@ -248,6 +249,7 @@ function resetSudoku()
 			sudokuSolution[i]=sudokuLibrary[rndSudoku*2+1][i];
 		}
 	}
+        saveSudoku();
 	updateUserInterface();
 }
 
@@ -302,10 +304,36 @@ function switchMode()
   updateUserInterface();
 }
 
+function saveSudoku()
+{
+  localStorage.clear();
+  var sudokuString = "[SUDOKU]";
+  for(i=0;i<81;i++) { sudokuString = sudokuString + sudoku[i]; }
+  for(i=0;i<81;i++) { sudokuString = sudokuString + sudokuPuzzle[i]; }
+  for(i=0;i<81;i++) { sudokuString = sudokuString + sudokuSolution[i]; }  
+  localStorage.setItem('Sudoku', sudokuString);
+}
+
+function loadSudoku()
+{
+  var sudokuString = localStorage.getItem('Sudoku');
+  if(sudokuString!=null) {
+    for(i=0;i<81;i++) {
+        sudoku[i]=sudokuString[i+8];
+        sudokuPuzzle[i]=sudokuString[i+89];
+        sudokuSolution[i]=sudokuString[i+170];
+    }
+  } else {
+    localStorage.clear();
+    resetSudoku();
+  }
+}
+
 function main()
 {
   document.body.style.backgroundColor="black";
-  resetSudoku();
+  //resetSudoku();
+  loadSudoku();
   updateUserInterface();
 }
 
