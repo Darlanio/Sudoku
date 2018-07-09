@@ -1,4 +1,5 @@
 <script>
+var mode=0;
 var flashcounter;
 var colors = [
     "black", "brown", "red", "orange", "yellow",
@@ -179,6 +180,13 @@ function anyDuplicateSolutions()
     return rv;
 }
 
+function newSudoku()
+{
+  clearAllVariables();
+  updateUserInterface();
+  setTimeout('resetSudoku()',999);
+}
+
 function resetSudoku()
 {
     var startTime = new Date();	
@@ -267,9 +275,31 @@ function updateUserInterface()
       id = "" + y.toString () + x.toString ();
 	  index = (id[0]-1)*9+(id[1]-1);
 	  c=sudoku[index];
-      document.getElementById(id).style.backgroundColor=colors[c];
+      if(mode==0) {
+        document.getElementById(id).style.backgroundColor=colors[c];
+        document.getElementById(id).innerHTML="";
+      } else {
+        document.getElementById(id).style.backgroundColor="black";
+        if(c>0) {
+          document.getElementById(id).innerHTML="<CENTER><FONT COLOR=\"WHITE\">" + c + "</FONT></CENTER>";
+        } else {
+          document.getElementById(id).innerHTML="<CENTER><FONT COLOR=\"BLACK\">" + c + "</FONT></CENTER>";
+        }
+      }
     }
   }
+}
+
+function switchMode()
+{
+  if(mode==0) {
+    document.getElementById("mode").innerHTML="Number";
+    mode=1;
+  } else {
+    document.getElementById("mode").innerHTML="Color";
+    mode=0;
+  }
+  updateUserInterface();
 }
 
 function main()
@@ -292,10 +322,11 @@ start ();
     <Table border=0 width="100%" height="4%" align=center valign=top>
       <TR>
         <TD> 
+          <CENTER><font size="6" color="white">Sudoku</font></CENTER>
         </TD>
       </TR>
     </Table>
-    <Table border=1 width="96%" height="93%" align=center valign=center>
+    <Table border=1 width="96%" height="86%" align=center valign=center>
       <TR height="32%">
         <TD width="32%"> 
           <Table border=1 width="100%" height="100%">
@@ -552,6 +583,19 @@ start ();
               </TD>
             </TR>
           </Table>
+        </TD>
+      </TR>
+    </Table>
+    <Table border=0 width="100%" height="4%" align=center valign=top>
+      <TR>
+        <TD colspan="2" width="44%" onClick="newSudoku();">
+          <font size="5" color="white">New</font>
+        </TD>
+        <TD width="22%"> 
+          <CENTER><font size="5" color="white">Mode:</font></CENTER>
+        </TD>
+        <TD width="22%" onClick="switchMode();"> 
+          <CENTER><font size="5" color="white"><DIV id="mode">Color</DIV></font></CENTER>
         </TD>
       </TR>
     </Table>
