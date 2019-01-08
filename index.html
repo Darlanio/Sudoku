@@ -136,7 +136,7 @@ function setSudoku(i,n)
 
 function clearSudoku(i)
 {
-    var n=sudoku[i]-1;
+  var n=sudoku[i]-1;
 	sudoku[i]=0;
 	sudokuRow[n*9+Math.floor(i/9)]=0;
 	sudokuCol[n*9+Math.floor(i%9)]=0;
@@ -145,26 +145,26 @@ function clearSudoku(i)
 
 function anySolution()
 {
-    var i=0;
+  var i=0;
 	var c;
 	var rv=false;
 	for(;i<81 && sudoku[i]!=0;i++);
-    if(i<81) {
-   		for(c=0;c<9 && !rv;c++) {
-   		    if(isPossible(i,c)) {
-   			    setSudoku(i,c);
-   			    rv=anySolution();
-   				clearSudoku(i);
-            }
-  		}
-    } else {
-        rv=true;
-    }
+  if(i<81) {
+   	for(c=0;c<9 && !rv;c++) {
+   		if(isPossible(i,c)) {
+   			setSudoku(i,c);
+   			rv=anySolution();
+   			clearSudoku(i);
+      }
+  	}
+  } else {
+    rv=true;
+  }
 	return rv;
 }
 function anyDuplicateSolutions()
 {
-    var i;
+  var i;
 	var c;
 	var rv=false;
 	for(i=0;i<81 && !rv;i++) {
@@ -188,9 +188,48 @@ function newSudoku()
   setTimeout('resetSudoku()',999);
 }
 
+function restartSudoku()
+{
+  var i;
+  for(i=0;i<81;i++) {
+    sudoku[i]=sudokuPuzzle[i];
+  }
+  updateUserInterface();
+}
+
+function hint()
+{
+  var rv=false;
+  var i;
+  var j=-1;
+  var r;
+  var v=-1;
+  for(i=0;i<81;i++) {
+    if(sudoku[i]!=0 && sudokuSolution[i]!=sudoku[i]) {
+      sudoku[i]=0;
+      rv=true;
+    }
+  }
+  if(rv==false) {
+    for(i=0;i<81;i++) {
+      if(sudoku[i]==0) {
+        r=Math.floor(Math.random()*999);
+        if(r>v) {
+          j=i;
+          v=r;
+        }
+      }
+    }
+    if(j>=0) {
+      sudoku[j]=sudokuSolution[j];
+    }
+  }
+  updateUserInterface();
+}
+
 function resetSudoku()
 {
-    var startTime = new Date();	
+  var startTime = new Date();	
 	var nowTime = new Date();
 	var i;
 	var rnd;
@@ -295,10 +334,10 @@ function updateUserInterface()
 function switchMode()
 {
   if(mode==0) {
-    document.getElementById("mode").innerHTML="Number";
+    document.getElementById("mode").innerHTML="Colors";
     mode=1;
   } else {
-    document.getElementById("mode").innerHTML="Color";
+    document.getElementById("mode").innerHTML="Numbers";
     mode=0;
   }
   updateUserInterface();
@@ -616,11 +655,14 @@ start ();
     </Table>
     <Table border=0 width="100%" height="4%" align=center valign=top>
       <TR>
-        <TD colspan="2" width="44%" onClick="newSudoku();">
-          <font size="5" color="white">New</font>
+        <TD width="22%" onClick="newSudoku();">
+          <CENTER><font size="5" color="white">New</font></CENTER>
         </TD>
-        <TD width="22%"> 
-          <CENTER><font size="5" color="white">Mode:</font></CENTER>
+        <TD width="22%" onClick="restartSudoku();">
+          <CENTER><font size="5" color="white">Restart</font></CENTER>
+        </TD>
+        <TD width="22%" onClick="hint();">
+          <CENTER><font size="5" color="white">Hint</font></CENTER>
         </TD>
         <TD width="22%" onClick="switchMode();"> 
           <CENTER><font size="5" color="white"><DIV id="mode">Color</DIV></font></CENTER>
